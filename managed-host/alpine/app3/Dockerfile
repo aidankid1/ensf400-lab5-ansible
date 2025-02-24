@@ -14,7 +14,7 @@ ENTRYPOINT ["/sbin/init"]
 # Build SSH server
 FROM alpine-systemd as alpine-sshd
 
-RUN apk update && apk add --no-cache \
+RUN apk update && \
     apk add --no-cache \
     bash git openssh rsync augeas shadow nodejs npm && \  
     deluser $(getent passwd 33 | cut -d: -f1) && \
@@ -24,7 +24,7 @@ RUN apk update && apk add --no-cache \
     echo -e "Port 2225\n" >> /etc/ssh/sshd_config && \
     cp -a /etc/ssh /etc/ssh.cache && \
     ln -sf /usr/bin/python3 /usr/bin/python && \
-    rm -rf /var/cache/apk/*  # Clean cache again to reduce image size
+    rm -rf /var/cache/apk/* 
 
 # Expose SSH port
 EXPOSE 2225
